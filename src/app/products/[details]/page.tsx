@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { StarsIcon } from "lucide-react";
+import AddToCartButton from "@/components/add-to-cart-button";
 
 interface ProductDetails {
   success: boolean;
@@ -25,22 +26,23 @@ export default function ProductDetails({ params }: any) {
   return (
     <>
     {productDetails?.success ? (
-      <div className="min-h-screen flex flex-col md:flex-row p-5 gap-8">
-        <div className="bg-gray-100 p-5 rounded-lg shadow-lg flex-1 flex flex-col items-center justify-center">
+      <div className="min-h-screen flex flex-col md:flex-row p-6 md:p-10 gap-10 bg-gray-50">
+        {/* Image Section */}
+        <div className="bg-white p-6 rounded-lg shadow-lg flex-1 flex flex-col items-center justify-center">
           <Image
             alt={productDetails?.data?.title}
             src={productDetails?.data?.images[selectedImageIndex]}
             width={500}
             height={350}
-            className="rounded-lg"
+            className="rounded-lg object-contain"
           />
-          <div className="flex gap-2 mt-5 flex-wrap justify-center">
+          <div className="flex gap-3 mt-5 flex-wrap justify-center">
             {productDetails?.data?.images.map((image: any, index: number) => (
               <div
                 key={image}
-                className={`cursor-pointer p-1 rounded-lg ${
+                className={`cursor-pointer p-2 rounded-lg transition-transform transform hover:scale-105 ${
                   selectedImageIndex === index ? "ring-2 ring-blue-500" : ""
-                } hover:bg-gray-200`}
+                }`}
                 onClick={() => setSelectedImageIndex(index)}
               >
                 <Image
@@ -48,38 +50,44 @@ export default function ProductDetails({ params }: any) {
                   src={image}
                   width={100}
                   height={150}
-                  className="rounded-md"
+                  className="rounded-md object-cover"
                 />
               </div>
             ))}
           </div>
         </div>
   
-        <div className="flex-1 m-5">
-          <h3 className="text-center font-semibold text-3xl antialiased mb-4">
+        {/* Product Details Section */}
+        <div className="flex-1 p-6 bg-white rounded-lg shadow-lg">
+          <h3 className="text-center font-bold text-3xl antialiased mb-6 text-gray-800">
             {productDetails?.data?.title}
           </h3>
-          <div className="m-5 flex flex-col sm:flex-row justify-around items-center font-extrabold text-xl gap-5">
-            <p className="bg-green-100 text-green-800 p-3 rounded-lg">
+          <div className="flex flex-col sm:flex-row justify-around items-center font-bold text-xl gap-6">
+            <p className="bg-green-100 text-green-800 p-4 rounded-lg shadow-inner">
               {"$ " + productDetails?.data?.price}
             </p>
-            <p className="bg-yellow-100 text-yellow-800 p-3 rounded-lg flex gap-1 items-center">
-            <StarsIcon/>{productDetails?.data?.rating + " / " + "5"}
+            <p className="bg-yellow-100 text-yellow-800 p-4 rounded-lg flex gap-2 items-center shadow-inner">
+              <StarsIcon className="h-5 w-5 text-yellow-600"/>
+              {productDetails?.data?.rating + " / " + "5"}
             </p>
           </div>
-          <p className="mt-5 font-bold text-gray-700 text-justify">
+          <p className="mt-6 text-gray-700 leading-relaxed text-justify">
             {productDetails?.data?.description}
           </p>
+          <div className="mt-8">
+            <AddToCartButton productItem={productDetails?.data} />
+          </div>
         </div>
       </div>
     ) : (
-      <div className="min-h-screen flex justify-center items-center">
+      <div className="min-h-screen flex justify-center items-center bg-gray-100">
         <h2 className="font-extrabold text-3xl text-slate-900 text-center">
-          Unable to Fetch Product Details,Loading...
+          Unable to Fetch Product Details, Loading...
         </h2>
       </div>
     )}
   </>
+  
   
   );
 }

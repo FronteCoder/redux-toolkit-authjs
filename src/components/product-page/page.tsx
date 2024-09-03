@@ -13,13 +13,13 @@ export default function ProductPage({ products }: any) {
 
   return (
     <>
-      <div className="min-h-screen grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+      <div className="min-h-screen grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-6">
         {products.length > 0 ? (
           products.map((product: Product) => {
             return (
               <Card
                 key={product.id}
-                className="shadow-lg rounded-lg overflow-hidden flex flex-col justify-between"
+                className="shadow-lg rounded-lg overflow-hidden flex flex-col justify-between transition-transform duration-200 hover:scale-105"
               >
                 <CardHeader className="text-center font-semibold text-lg sm:text-xl bg-gray-100 p-4 min-h-[60px] flex items-center justify-center">
                   {product.title}
@@ -30,7 +30,7 @@ export default function ProductPage({ products }: any) {
                     src={product?.images[0]}
                     width={350}
                     height={200}
-                    className="object-cover h-48 w-full"
+                    className="object-cover h-48 w-full rounded-md"
                   />
                 </CardContent>
                 <CardFooter className="flex justify-between items-center p-4 bg-gray-100">
@@ -40,11 +40,11 @@ export default function ProductPage({ products }: any) {
                   <div className="flex flex-col gap-2">
                     <Button
                       onClick={() => router.push(`/products/${product?.id}`)}
-                      className="bg-blue-500 text-white hover:bg-blue-600 rounded-md"
+                      className="bg-blue-500 text-white hover:bg-blue-600 rounded-md px-4 py-2"
                     >
                       Details
                     </Button>
-                    <AddToCartButton productItem={product}/>
+                    <AddToCartButton productItem={product} />
                   </div>
                 </CardFooter>
               </Card>
@@ -61,3 +61,4 @@ export default function ProductPage({ products }: any) {
     </>
   );
 }
+
